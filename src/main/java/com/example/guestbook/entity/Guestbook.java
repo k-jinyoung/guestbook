@@ -23,4 +23,14 @@ public class Guestbook extends BaseEntity{
 
     @Column(length = 50, nullable = false)
     private String writer;
+
+
+    //제목과 내용을 수정할 수 있도록 메소드 추가
+    public void changeTitle(String title){
+        this.title = title;
+    }
+
+    public void changeContent(String content){
+        this.content = content;
+    }
 }
