@@ -1,6 +1,9 @@
 package com.example.guestbook.service;
 
 import com.example.guestbook.dto.GuestbookDTO;
+import com.example.guestbook.dto.PageRequestDTO;
+import com.example.guestbook.dto.PageResultDTO;
+import com.example.guestbook.entity.Guestbook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +27,20 @@ public class GuestbookServiceTests {
 
         System.out.println(guestbookService.register(guestbookDTO));
     }
+
+    @Test
+    @DisplayName("엔티티를 DTO로 변환 성공한다.")
+    public void tesList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResultDTO<GuestbookDTO,Guestbook> resultDTO = guestbookService.getList(pageRequestDTO);
+
+        for (GuestbookDTO guestbookDTO : resultDTO.getDtoList()){
+            System.out.println(guestbookDTO);
+        }
+    }
 }
+
