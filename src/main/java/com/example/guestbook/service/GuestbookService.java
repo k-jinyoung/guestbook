@@ -6,8 +6,12 @@ import com.example.guestbook.dto.PageResultDTO;
 import com.example.guestbook.entity.Guestbook;
 
 public interface GuestbookService {
+    //등록
     Long register(GuestbookDTO guestbookDTO);
+    //목록
     PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO pageRequestDTO);
+    //조회
+    GuestbookDTO read(Long gno);
 
     //dto를 Entity로 변환
     default Guestbook dtoToEntity(GuestbookDTO guestbookDTO) {

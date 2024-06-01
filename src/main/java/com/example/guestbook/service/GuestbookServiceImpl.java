@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -21,6 +22,7 @@ public class GuestbookServiceImpl implements GuestbookService{
     private final GuestbookRepository guestbookRepository;
 
     //dtoToEntity
+    //방명록 등록
     @Override
     public Long register(GuestbookDTO guestbookDTO) {
 
@@ -36,6 +38,7 @@ public class GuestbookServiceImpl implements GuestbookService{
         return entity.getGno();
     }
 
+    //방명록 목록
     //entityToDto
     @Override
     public PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO pageRequestDTO) {
@@ -50,5 +53,12 @@ public class GuestbookServiceImpl implements GuestbookService{
 
         //변환된 결과를 PageResultDTO로 반환
         return new PageResultDTO<>(result, fn);
+    }
+
+    //방명록 조회
+    @Override
+    public GuestbookDTO read(Long gno) {
+        Optional<Guestbook> readResult = guestbookRepository.findById(gno);
+        return readResult.isPresent()? entityToDto(readResult.get()) : null;
     }
 }
