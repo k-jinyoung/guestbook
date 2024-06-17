@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -58,5 +59,42 @@ public class GuestbookController {
         redirectAttributes.addFlashAttribute("msg", gno);
 
         return "redirect:/guestbook/list";
+    }
+
+    //방명록 조회
+    @GetMapping({"/read", "/modify"})
+    public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, Model model){
+        System.out.println("gno: " + gno);
+
+        GuestbookDTO guestbookDTO = guestbookService.read(gno);
+
+        model.addAttribute("dto", guestbookDTO);
+    }
+
+    //방명록 삭제
+    @PostMapping("/remove")
+    public String remove(long gno, RedirectAttributes redirectAttributes) {
+        System.out.println("gno: " + gno);
+
+        guestbookService.remove(gno);
+
+        //삭제 후 목록의 첫 페이지로 이동하는 로직
+        redirectAttributes.addFlashAttribute("msg", gno);
+
+        return "redirect:/guestbook/list";
+    }
+
+    //수정할 때 Controller
+    @PostMapping("/modify")
+    public String modify(GuestbookDTO guestbookDTO, @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes){
+        System.out.println("post modify......................................");
+        System.out.println("dto:" + guestbookDTO);
+
+        guestbookService.modify(guestbookDTO);
+
+        redirectAttributes.addAttribute("page", pageRequestDTO.getPage());
+        redirectAttributes.addAttribute("gno", guestbookDTO.getGno());
+
+        return "redirect:/guestbook/read";
     }
 }

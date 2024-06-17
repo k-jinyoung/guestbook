@@ -17,6 +17,8 @@ public class PageRequestDTO {
 
     private int page;           //요청하는 페이지 번호
     private int size;           //한 페이지에 표시될 항목 수
+    private String type;
+    private String keyword;
 
     //기본 생성자(기본적으로 1페이지를 요청, 한 페이지당 10개의 항목을 보여주도록 초기화 설정)
     public PageRequestDTO() {
