@@ -6,8 +6,12 @@
         <h1 class="mt-4">GuestBook Modify Page</h1>
 
         <form action="/guestbook/modify" method="post">
-        <!-- 수정이 완료된 후에도 다시 동일한 페이지 번호가 유지 되어야한다. -->
-        <input type="hidden" name="page" th:value="${requestDTO.page}">
+
+        <!-- 페이지 번호 -->
+            <!-- 수정은 다시 조회 페이지로 이동하기 때문에 검색 조건을 같이 유지 해야한다.-->
+            <input type="hidden" name="page" th:value="${requestDTO.page}">
+            <input type="hidden" name="type" th:value="${requestDTO.type}">
+            <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
 
         <div class="form-group">
             <label>Gno</label>
@@ -68,15 +72,22 @@
 
             //수정 화면에서 다시 목록 페이지로
             $('.listBtn').click(function (){
-                var pageInfo = $("input[name='page']");
+                //var pageInfo = $("input[name='page']");
+                var page = $("input[name='page']");
+                var type = $("input[name='type']");
+                var keyword = $("input[name='keyword']");
 
                 actionForm.empty();     //form 태그의 모든 내용을 지운다.
-                actionForm.append(pageInfo);        //비워진 곳에 목록 페이지 이동에 필요한 내용 다시 추가한다.
+
+                actionForm.append(page);
+                actionForm.append(type);
+                actionForm.append(keyword);
+
                 actionForm
                     .attr("action", "/guestbook/list")
                     .attr("method", "get");
 
-                console.log(actionForm.html());
+                /*console.log(actionForm.html());*/
                 actionForm.submit();
             })
         </script>
